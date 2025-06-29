@@ -1,0 +1,51 @@
+@model BestStore.Models.Cart
+
+<h2>Mon panier</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Quantité</th>
+            <th>Prix unitaire</th>
+            <th>Total</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Items)
+{
+    <tr>
+        <td>@item.Name</td>
+        <td>@item.Quantity</td>
+        <td>@item.Price @("CFA")</td>
+        <td>@(item.Price * item.Quantity) @("CFA")</td>
+        <td>
+            <form asp-action="Remove" method="post" asp-route-id="@item.ProductId" onsubmit="return confirm('Supprimer cet article du panier ?');">
+                <button type="submit" class="btn btn-danger">Supprimer</button>
+            </form>
+        </td>
+    </tr>
+}
+    </tbody>
+</table>
+
+<h4>Total : @Model.GetTotal() @("CFA")</h4>
+
+<form asp-action="Clear" method="post" onsubmit="return confirm('Vider le panier ?');">
+    <button type="submit" class="btn btn-warning">Vider le panier</button>
+</form>
+
+<hr />
+@if (User.Identity.IsAuthenticated)
+{
+    <form asp-controller="Order" asp-action="Confirm" method="get">
+        <button type="submit" class="btn btn-primary">Valider la commande</button>
+    </form>
+}
+else
+{
+    <div class="alert alert-warning">
+        Vous devez être <a href="/Identity/Account/Login">connecté</a> pour valider votre commande.
+    </div>
+}

@@ -1,0 +1,70 @@
+@model IEnumerable<BestStore.Models.ProductDetailsViewModel>
+
+@{
+    ViewData["Title"] = "Notre Boutique - Produits";
+}
+
+<h1>Bienvenue dans Notre Boutique</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success mb-3">Create New Product</a>
+</p>
+
+<div class="row">
+@foreach (var item in Model)
+{
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            @if (!string.IsNullOrEmpty(item.Product.ImageFileName))
+            {
+                <img src="~/uploads/@item.Product.ImageFileName" class="card-img-top" alt="@item.Product.Name" style="height: 200px; object-fit: cover;" />
+            }
+            else
+            {
+                <div class="card-img-top d-flex align-items-center justify-content-center bg-light" style="height: 200px;">
+                    <span class="text-muted">No image</span>
+                </div>
+            }
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title">@item.Product.Name</h5>
+                <p class="card-text text-truncate">@item.Product.Description</p>
+                <p class="card-text"><strong>Price:</strong> @item.Product.Price.ToString("C")</p>
+                <p class="card-text"><strong>Category:</strong> @item.Product.Category?.Name</p>
+                <p class="card-text"><strong>Likes:</strong> @item.LikeCount</p>
+                <p class="card-text"><strong>Commentaires:</strong> @item.Comments.Count</p>
+                <div class="mt-auto d-flex justify-content-between align-items-center gap-2">
+                    <a asp-action="Details" asp-route-id="@item.Product.Id" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-eye"></i> Détails
+                    </a>
+
+                    <form asp-controller="Cart" asp-action="Add" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@item.Product.Id" />
+                        <input type="hidden" name="name" value="@item.Product.Name" />
+                        <input type="hidden" name="price" value="@item.Product.Price" />
+                        <button type="submit" class="btn btn-success btn-sm add-to-cart-btn">
+                            <i class="bi bi-cart-plus"></i> Ajouter au Panier
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+</div>
+<style>
+    .add-to-cart-btn {
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #28a745cc;
+    transform: scale(1.05);
+}
+
+.btn-outline-primary:hover {
+    color: #fff;
+    background-color: #0d6efd;
+}
+
+</style>

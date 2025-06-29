@@ -1,0 +1,12 @@
+@{
+    ViewData["Title"] = "Confirmation de commande";
+}
+
+<h2>Confirmation de commande</h2>
+
+<p>Souhaitez-vous valider votre commande ?</p>
+
+<form asp-controller="Order" asp-action="Submit" method="post">
+    <button type="submit" class="btn btn-success">Confirmer</button>
+    <a asp-controller="Cart" asp-action="Index" class="btn btn-secondary">Retour au panier</a>
+</form>

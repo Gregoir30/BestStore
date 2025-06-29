@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Succès de la commande";
+}
+
+<h2>Succès de la commande</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+<p>
+    <a asp-action="DownloadPdf" asp-controller="Order" class="btn btn-primary">Télécharger le panier en PDF</a>
+</p>
+
+<p>
+    <a asp-action="Index" asp-controller="Home" class="btn btn-secondary">Retour à l'accueil</a>
+</p>
